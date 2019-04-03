@@ -145,8 +145,10 @@ obj.insert("sss")
 
 
 c=obj.search("arthyyy")
+
 print(c)
 # v = obj.startsWith("p")
 obj.autoCompletion("ar")
-# print(obj.wordList)
+
+print(obj.wordList)
 # print(v)
