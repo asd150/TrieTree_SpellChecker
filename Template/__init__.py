@@ -141,8 +141,12 @@ obj.insert("arath")
 obj.insert("lion")
 obj.insert("lions")
 obj.insert("sss")
-c=obj.search("sss")
-v = obj.startsWith("p")
+
+
+
+c=obj.search("arthyyy")
+print(c)
+# v = obj.startsWith("p")
 obj.autoCompletion("ar")
-print(obj.wordList)
-print(v)
+# print(obj.wordList)
+# print(v)
