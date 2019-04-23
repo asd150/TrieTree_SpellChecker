@@ -1,0 +1,91 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'trietree_GUI.ui'
+#
+# Created by: PyQt5 UI code generator 5.9.2
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(803, 657)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
+        self.labelTitle = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(18)
+        self.labelTitle.setFont(font)
+        self.labelTitle.setObjectName("labelTitle")
+        self.gridLayout.addWidget(self.labelTitle, 0, 1, 1, 1)
+        self.textOutput = QtWidgets.QTextEdit(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(24)
+        self.textOutput.setFont(font)
+        self.textOutput.setObjectName("textOutput")
+        self.gridLayout.addWidget(self.textOutput, 3, 0, 1, 2)
+        self.buttonCheck = QtWidgets.QPushButton(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(18)
+        self.buttonCheck.setFont(font)
+        self.buttonCheck.setObjectName("buttonCheck")
+        self.gridLayout.addWidget(self.buttonCheck, 2, 0, 1, 1)
+        self.buttonInitial = QtWidgets.QPushButton(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(18)
+        self.buttonInitial.setFont(font)
+        self.buttonInitial.setObjectName("buttonInitial")
+        self.gridLayout.addWidget(self.buttonInitial, 0, 0, 1, 1)
+        self.textInput = QtWidgets.QTextEdit(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("Times New Roman")
+        font.setPointSize(24)
+        self.textInput.setFont(font)
+        self.textInput.setObjectName("textInput")
+        self.gridLayout.addWidget(self.textInput, 1, 0, 1, 2)
+        self.labelCheck = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        self.labelCheck.setFont(font)
+        self.labelCheck.setObjectName("labelCheck")
+        self.gridLayout.addWidget(self.labelCheck, 2, 1, 1, 1)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 803, 22))
+        self.menubar.setObjectName("menubar")
+        self.menuStart = QtWidgets.QMenu(self.menubar)
+        self.menuStart.setObjectName("menuStart")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+        self.actionImport = QtWidgets.QAction(MainWindow)
+        self.actionImport.setObjectName("actionImport")
+        self.actionOpen = QtWidgets.QAction(MainWindow)
+        self.actionOpen.setObjectName("actionOpen")
+        self.menuStart.addAction(self.actionImport)
+        self.menuStart.addAction(self.actionOpen)
+        self.menubar.addAction(self.menuStart.menuAction())
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Trie Tree"))
+        self.labelTitle.setText(_translate("MainWindow", "TrieTree not initialize"))
+        self.buttonCheck.setText(_translate("MainWindow", "Checking spell and recommendation"))
+        self.buttonInitial.setText(_translate("MainWindow", "Generating Trie Tree"))
+        self.labelCheck.setText(_translate("MainWindow", "Check your document"))
+        self.menuStart.setTitle(_translate("MainWindow", "Start"))
+        self.actionImport.setText(_translate("MainWindow", "Import dictionary"))
+        self.actionOpen.setText(_translate("MainWindow", "Open"))
+
