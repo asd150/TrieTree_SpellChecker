@@ -1,7 +1,8 @@
 import pickle
 import os
 import copy
-
+import numpy as np
+import string
 class TrieNode:
     def __init__(self):
         self.children = {}
@@ -21,6 +22,36 @@ class TrieTree:
         for line in open("words_alpha.txt"):
             currentWord = line.rstrip('\n')
             self.insert(currentWord)
+
+    def readParagraph(self,paragraph):
+        all_incorrect_words = {}
+
+        paragraph = paragraph.split(" ")
+        for word in paragraph:
+            candidateWords = []
+            if len(word)>0:
+                # print("-->",word)
+                currLen = len(word)
+                lists = self.check(word)
+
+
+                # incorrect word
+                newL = []
+                if len(lists) > 0:
+                    for i in range(len(lists)):
+
+                        if len(lists[i]) < len(word)+5:
+                            newL.append(lists[i])
+                for i in range(len(newL)):
+                    editDistance = self.edit_distance(word,newL[i])
+                    candidateWords.append((newL[i],editDistance))
+            candidateWords = sorted(candidateWords,key = lambda x : x[1])
+            all_incorrect_words[word] = candidateWords[:5]
+
+        return all_incorrect_words
+
+
+
 
 
 
@@ -75,19 +106,40 @@ class TrieTree:
 
     def check(self, word):
         if self.search(word):
-            return True
+            return []
         else:
             word_ = word
             while word_ != '':
                 word_ = word_[:len(word_)-1]
-                print(word_)
-                print('self.autoCompletion(word_)',self.autoCompletion(word_))
+                # print(word_)
+                # print('self.autoCompletion(word_)',self.autoCompletion(word_))
                 if self.autoCompletion(word_)==None:
-                    print(word_)
+                    # print(word_)
                     result = copy.deepcopy(self.wordList)
                     self.wordList.clear()
 
                     return result
+
+    def diff(self,a, b):
+        if a == b:
+            return 0
+        else:
+            return 1
+
+    def edit_distance(self,x, y):
+        m = len(x)
+        n = len(y)
+        E = np.zeros((m + 1, n + 1))
+        for i in range(m + 1):
+            E[i][0] = i
+        for j in range(n + 1):
+            E[0][j] = j
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                E[i][j] = min(1 + E[i - 1][j], 1 + E[i][j - 1], self.diff(x[i - 1], y[j - 1]) + E[i - 1][j - 1])
+
+        return E[m][n]
+
 
 
 
@@ -105,24 +157,34 @@ print(os.path.exists(exists))
 
 
 if __name__ == '__main__':
+    # Training Phase
     # exists = os.path.split(os.path.realpath(__file__))[0] + "\\serialized.txt"
     # initT = TrieTree()
     # file = open('serialized.txt', 'wb')
     # pickle.dump(initT, file, 0)
     # file.close()
 
-    file = open('serialized.txt','rb')
-    TrieSer = pickle.load(file)
-    file.close()
-    print("animal === ",TrieSer.check("animmmm"))
-    # TrieSer.autoCompletion("hhhhhhhhhhhhhhhhhhjjjjjjjjjjjjjjjjjjjjjjj")
+    # Serialized Version
+    # file = open('serialized.txt','rb')
+    # TrieSer = pickle.load(file)
+    # file.close()
+    #
+    s = "string. Witht. animmm?"
+    s = s.translate(str.maketrans('', '', string.punctuation)).lower()
+
+    T = TrieTree()
+    incorrect = T.readParagraph(s)
+
+    for key,val in incorrect.items():
+        if len(val)>0:
+            print(key,"--->", val)
 
 
 
 
-    # if not exists:
-    #     initT = TrieTree()
-    #     file = open2
+
+
+
 
 
 
