@@ -16,7 +16,6 @@ class TrieTree:
         self.wordList = []
 
 
-
     def readFile(self):
         wordList = []
         for line in open("words_alpha.txt"):
@@ -24,38 +23,37 @@ class TrieTree:
             self.insert(currentWord)
 
     def readParagraph(self,paragraph):
+        words  =[]
         all_incorrect_words = {}
 
         paragraph = paragraph.split(" ")
         for word in paragraph:
-            candidateWords = []
-            if len(word)>0:
-                # print("-->",word)
-                currLen = len(word)
-                lists = self.check(word)
+            if word not in words:
+                words.append(word)
+                candidateWords = []
+                if len(word)>0 and self.search(word) == False:
+                    # print("-->",word)
 
+                    lists = self.check(word)
+                    candidateWords = sorted(lists, key=lambda x: x[1])
+                    # recommended words for a given incorrenc
 
-                # incorrect word
-                newL = []
-                if len(lists) > 0:
-                    for i in range(len(lists)):
-
-                        if len(lists[i]) < len(word)+5:
-                            newL.append(lists[i])
-                for i in range(len(newL)):
-                    editDistance = self.edit_distance(word,newL[i])
-                    candidateWords.append((newL[i],editDistance))
-            candidateWords = sorted(candidateWords,key = lambda x : x[1])
-            all_incorrect_words[word] = candidateWords[:5]
+                    # incorrect word
+                #     newL = []
+                #     if len(lists) > 0:
+                #         for i in range(len(lists)):
+                #
+                #             if len(lists[i]) < len(word)+5:
+                #                 newL.append(lists[i])
+                #     for i in range(len(newL)):
+                #         editDistance = self.edit_distance(word,newL[i])
+                #         if editDistance <=3:
+                #             candidateWords.append((newL[i],editDistance))
+                # candidateWords = sorted(candidateWords,key = lambda x : x[1])
+                if all_incorrect_words.get(word) == None:
+                    all_incorrect_words[word] = candidateWords[:5]
 
         return all_incorrect_words
-
-
-
-
-
-
-
 
 
     def insert(self,word):
@@ -88,10 +86,6 @@ class TrieTree:
         for key,val in node.children.items():
             self.recursion(node.children[key],prefix+key)
 
-
-
-
-
     def autoCompletion(self,prefix):
         tempKey = ""
         node = self.root
@@ -105,20 +99,31 @@ class TrieTree:
         self.recursion(node,tempKey)
 
     def check(self, word):
+        result = []
+        retRes = []
         if self.search(word):
             return []
         else:
             word_ = word
-            while word_ != '':
+            while word_ != word[0]:
                 word_ = word_[:len(word_)-1]
-                # print(word_)
-                # print('self.autoCompletion(word_)',self.autoCompletion(word_))
                 if self.autoCompletion(word_)==None:
                     # print(word_)
-                    result = copy.deepcopy(self.wordList)
+                    # result = copy.deepcopy(self.wordList)
+                    for i in self.wordList:
+
+                        if len(i) < len(word)+4:
+
+                            ed = self.edit_distance(word,i)
+                            if ed < 3:
+                                if i not in result:
+                                    result.append(i)
+                                    retRes.append((i,ed))
+
+
                     self.wordList.clear()
 
-                    return result
+        return retRes
 
     def diff(self,a, b):
         if a == b:
@@ -141,47 +146,51 @@ class TrieTree:
         return E[m][n]
 
 
-
-
-
-
-exists =os.path.split(os.path.realpath(__file__))[0]+"\\words_alpha.txt"
-
-
-print(os.path.exists(exists))
-
-
+# exists =os.path.split(os.path.realpath(__file__))[0]+"\\words_alpha.txt"
 #
-# initT = TrieTree()
-# print(initT.search("animakl"))
+#
+# print(os.path.exists(exists))
+
+
 
 
 if __name__ == '__main__':
     # Training Phase
     # exists = os.path.split(os.path.realpath(__file__))[0] + "\\serialized.txt"
     # initT = TrieTree()
+    # initT.insert("trie")
+    # initT.insert("bst")
+    #
     # file = open('serialized.txt', 'wb')
     # pickle.dump(initT, file, 0)
     # file.close()
 
     # Serialized Version
-    # file = open('serialized.txt','rb')
-    # TrieSer = pickle.load(file)
-    # file.close()
+    file = open('serialized.txt','rb')
+    TrieSer = pickle.load(file)
+    file.close()
+    # # #
+    # # s = "string. Witht. animmm?"
+    s = "Trie is an efficient information retrievl data structure. Using trie, search complexities can be brought to optimal " \
+        "limit (key length). If we store keys in binary search tree, a well balanced BST will need time proportonal " \
+        "to M log N, where M is maximum string length and N is nuber of keys in tree. Using trie we can search the key in O(M) time. " \
+        "Howerer, the penalty is on Trie storage requiremets"
+    s = s.translate(str.maketrans(' ', ' ', string.punctuation)).lower()
+    # # print(s)
+    # #
     #
-    s = "string. Witht. animmm?"
-    s = s.translate(str.maketrans('', '', string.punctuation)).lower()
+    # # incorrect = TrieSer.readParagraph(s)
+    # #
+    # #
+    # # #
+    #
+    #
+    # trie  =TrieTree()
+    x = TrieSer.readParagraph(s)
 
-    T = TrieTree()
-    incorrect = T.readParagraph(s)
-
-    for key,val in incorrect.items():
+    for key,val in x.items():
         if len(val)>0:
             print(key,"--->", val)
-
-
-
-
 
 
 
